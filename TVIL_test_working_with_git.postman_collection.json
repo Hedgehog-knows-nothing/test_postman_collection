@@ -1,0 +1,153 @@
+{
+	"info": {
+		"_postman_id": "21721608-f1da-48af-ac40-ad432aefb7ed",
+		"name": "TVIL_test_working_with_git",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Разлогиниться",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7712bb1d-79a9-4a5a-86ba-c2adac1b3d0d",
+						"exec": [
+							"pm.test(\"Status code is not 403\", function () {",
+							"    pm.response.to.not.be.status(403);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"type\": \"login\",\n\t\t\"attributes\": {\n\t\t\t\"username\": \"79616921822\",\n\t\t\t\"password\": \"123456\"\n\t\t}\n\t}\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "https://api{{url_api}}.tvil.ru/auth/logout",
+					"protocol": "https",
+					"host": [
+						"api{{url_api}}",
+						"tvil",
+						"ru"
+					],
+					"path": [
+						"auth",
+						"logout"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Авторизация (владельцем)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bd6b524c-757a-4ad3-a7c2-6e3c0f4c5a87",
+						"exec": [
+							"var jsonData = pm.response.json();",
+							"console.log(jsonData); // вывод в консоль ответа",
+							"",
+							"var data = JSON.parse(responseBody);",
+							"postman.setEnvironmentVariable(\"key\",data.data.id);",
+							"",
+							"pm.test(\"Status code is 201\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"pm.test(\"Status code is not 403\", function () {",
+							"    pm.response.to.not.be.status(403);",
+							"});",
+							"",
+							"pm.test(\"Checking value == ... \", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.data.type).to.eql(\"tokens\");",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					},
+					{
+						"key": "Accept",
+						"type": "text",
+						"value": "application/vnd.api+json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"data\": {\n\t\t\"type\": \"login\",\n\t\t\"attributes\": {\n\t\t\t\"username\": {{username}},\n\t\t\t\"password\": {{password}}\n\t\t}\n\t}\n}",
+					"options": {
+						"raw": {}
+					}
+				},
+				"url": {
+					"raw": "https://api{{url_api}}.tvil.ru/auth/login",
+					"protocol": "https",
+					"host": [
+						"api{{url_api}}",
+						"tvil",
+						"ru"
+					],
+					"path": [
+						"auth",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "72d4467c-02b0-4f28-9a95-cd1f4cc4bb29",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "040df2ce-a971-438a-a079-2fc3c8e13755",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
